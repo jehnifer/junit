@@ -3,13 +3,31 @@ package br.edu.ifg.junit.introduction.test;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 
 import br.edu.ifg.junit.introduction.Lance;
 import br.edu.ifg.junit.introduction.Leilao;
 
 public class LeilaoTest {
 	
+	@Rule 
+	public TestName testName = new TestName();
+	
+	@Before
+	public void setupMethods() {
+		System.out.println("\n--------------------------------------------\n");
+		System.out.println("setting up " + testName.getMethodName());
+	}
+	
+	@After
+	public void destroyMethodsConfig() {
+		System.out.println("destroying " + testName.getMethodName());
+		System.out.println("\n--------------------------------------------\n");
+	}
 	
 	@Test
 	public void deveCalcularValorLance() {
@@ -30,14 +48,24 @@ public class LeilaoTest {
 	
 	@Test
 	public void deveRetornarMaiorLanceQuandoNenhumLanceForEfetuado() {
+		
 		Leilao leilao = new Leilao();
 		
 		Lance maiorLance = leilao.retornaMaiorLance();
 		assertEquals(0.00, maiorLance.getValor(), 0);
 	}
 	
+	public Leilao adicionaUmLance() {
+		Leilao leilao = new Leilao();
+		Lance kenyo = new Lance("Kenyo", 200.00);
+		
+		leilao.efetuaLance(kenyo);
+		return leilao;
+	}
+	
 	@Test
 	public void deveRetornarMaiorLanceQuandoApenasUmLanceForEfetuado() {
+		
 		Leilao leilao = new Leilao();
 		Lance kenyo = new Lance("Kenyo", 200.00);
 		
